@@ -5,6 +5,7 @@ import { ProductComponent } from '../components/product/product.component';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
 import { EditPopupComponent } from '../components/edit-popup/edit-popup.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import { EditPopupComponent } from '../components/edit-popup/edit-popup.componen
     CommonModule,
     PaginatorModule,
     EditPopupComponent,
+    ButtonModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -34,7 +36,12 @@ export class HomeComponent {
     this.displayEditPopup = true;
   }
 
-  toggleDeletePopup(product: Product) {}
+  toggleDeletePopup(product: Product) {
+    if (!product.id) {
+      return;
+    }
+    this.deleteProduct(product.id);
+  }
 
   toggleAddPopup() {
     this.displayAddPopup = true;
@@ -85,7 +92,7 @@ export class HomeComponent {
 
   editProduct(product: Product, id: number) {
     this.productsService
-      .editProduct('http://localhost:3000/clothes/${id}', product)
+      .editProduct(`http://localhost:3000/clothes/${id}`, product)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -99,7 +106,7 @@ export class HomeComponent {
 
   deleteProduct(id: number) {
     this.productsService
-      .deleteProduct('http://localhost:3000/clothes/${id}')
+      .deleteProduct(`http://localhost:3000/clothes/${id}`)
       .subscribe({
         next: (data) => {
           console.log(data);
@@ -113,7 +120,7 @@ export class HomeComponent {
 
   addProduct(product: Product) {
     this.productsService
-      .addProduct('http://localhost:3000/clothes/${id}', product)
+      .addProduct('http://localhost:3000/clothes/', product)
       .subscribe({
         next: (data) => {
           console.log(data);
