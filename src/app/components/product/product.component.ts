@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Product } from '../../types';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +35,13 @@ export class ProductComponent {
   @Input() product!: Product;
   @Output() edit: EventEmitter<Product> = new EventEmitter<Product>();
   @Output() delete: EventEmitter<Product> = new EventEmitter<Product>();
+
+  truncateName(name: string) {
+    if (name.length > 16) {
+      return name.slice(0, 16) + '...';
+    }
+    return name;
+  }
 
   editProduct() {
     this.edit.emit(this.product);
